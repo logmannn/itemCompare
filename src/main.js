@@ -8,6 +8,7 @@ $(document).ready(function() {
   $('.btn-success').click(function(event){
     event.preventDefault();
     let search = $("#search").val();
+    $(".output").empty();
     let url = `https://api.bestbuy.com/v1/products(search=${search})?format=json&show=sku,upc,name,salePrice&apiKey=OoisIQjnBk1LJsHxUacZVYJt&pageSize=5`;
     getItem(fetchResults, badResults, search, url);
 
