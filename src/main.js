@@ -1,78 +1,33 @@
 import './styles.css';
+import { getItem } from "../src/getItem.js";
 import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 $(document).ready(function() {
-  // $('#weatherLocation').click(function() {
-    // let city = $('#location').val();
-    // $('#location').val("");
 
-  // // //bestbuy
- $('#submit-search').submit(function(event){
-   event.preventDefault();
-   let search = $("#search").val();
-    let promise = new Promise(function(resolve, reject) {
-      let request = new XMLHttpRequest();
-      let url = `https://api.bestbuy.com/v1/products(search=${search})?format=json&show=sku,upc,name,salePrice&apiKey=OoisIQjnBk1LJsHxUacZVYJt&pageSize=25`;
-      request.onload = function() {
-        if (this.status === 200) {
-          resolve(request.response);
-        } else {
-          reject(Error(request.statusText));
-        }
-      }
-      request.open("GET", url, true);
-      request.send();
-    });
-
-    promise.then(function(response) {
-      let body = JSON.parse(response);
-      console.log(body.products);
-
-      let simpleProductArray = [];
-      body.products.forEach(function(element) {
-        simpleProductArray.push(element.name + " " + element.salePrice + " " + element.upc + " " + element.sku);
-      });
-
-      simpleProductArray.forEach(function(element) {
-        $(".bestbuyoutput").append("<p>" + element + "</p>");
-      });
-    }, function(error) {
-      $('.showErrors').text(`There was an error processing your request: ${error.message}`);
-    });
-
-    // // //walmart
-    promise = new Promise(function(resolve, reject) {
-      let request = new XMLHttpRequest();
-      let url = `http://api.walmartlabs.com/v1/search?apiKey=vwaczxtbwhzbpjk59pkrnpua&query=ipod&categoryId=3944&sort=price&order=asc&numItems=25`;
-      request.onload = function() {
-        if (this.status === 200) {
-          resolve(request.response);
-        } else {
-          reject(Error(request.statusText));
-        }
-      }
-      request.open("GET", url, true);
-      request.send();
-    });
-
-    promise.then(function(response) {
-      let body = JSON.parse(response);
-      console.log(body.products);
-
-      let simpleProductArray = [];
-      body.items.forEach(function(element) {
-        simpleProductArray.push(element.name + " $" + element.salePrice + " " + element.upc);
-      });
-      console.log(simpleProductArray);
-
-      simpleProductArray.forEach(function(element) {
-        $(".walmartoutput").append("<p>" + element + "</p>");
-      });
-    }, function(error) {
-      $('.showErrors').text(`There was an error processing your request: ${error.message}`);
-    });
+  $('.btn-success').click(function(event){
+    event.preventDefault();
+    let search = $("#search").val();
+    getItem(fetchResults, badResults, search);
   });
 });
 
+let fetchResults = function(response){
+  let items = JSON.parse(response);
+  let i = 0;
+  items.products.forEach(function(item) {
+    console.log(items.products[i]);
+    $(".bestbuyoutput").append(items.products[i].name + " " + items.products[i].upc + " $" + items.products[i].salePrice + "<br>");
+    i += 1;
+  });
+
+  // $(".bestbuyoutput").append(items.product);
+  // response.forEach(function(item) {
+  //
+  // });
+}
+
+let badResults = function(error){
+  $("#results").text("There was an error processing your request");
+}
 // $('.showHumidity').text(`The SKU is ${body.products.sku}%`);
