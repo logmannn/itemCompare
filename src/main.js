@@ -9,10 +9,10 @@ $(document).ready(function() {
     event.preventDefault();
     let search = $("#search").val();
     $(".output").empty();
-    let url = `https://api.bestbuy.com/v1/products(search=${search})?format=json&show=sku,upc,name,salePrice&apiKey=OoisIQjnBk1LJsHxUacZVYJt&pageSize=5`;
+    let url = `https://api.bestbuy.com/v1/products(search=${search})?format=json&show=sku,upc,name,salePrice&apiKey=OoisIQjnBk1LJsHxUacZVYJt&pageSize=25`;
     getItem(fetchResults, badResults, search, url);
 
-    url = `http://api.walmartlabs.com/v1/search?apiKey=vwaczxtbwhzbpjk59pkrnpua&query=${search}&categoryId=3944&sort=price&order=asc&numItems=5`;
+    url = `http://api.walmartlabs.com/v1/search?apiKey=vwaczxtbwhzbpjk59pkrnpua&query=${search}&categoryId=3944&sort=price&order=asc&numItems=25`;
     getItem(fetchResults, badResults, search, url);
   });
 });
