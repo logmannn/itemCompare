@@ -1,4 +1,5 @@
 import $ from 'jquery';
+
 // import fetchResults from "../src/main.js";
 
 function getItem(fetchResults, badResults, search, url){
